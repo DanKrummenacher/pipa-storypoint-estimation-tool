@@ -2,9 +2,9 @@ name: Quality & Build Check
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   quality-gate:
@@ -18,53 +18,45 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: npm
           cache-dependency-path: |
             backend/package-lock.json
             frontend/package-lock.json
 
       - name: Install Frontend
+        working-directory: ./frontend
         run: npm ci
-        working-directory: ./frontend
 
-      - name: Lint & Format Frontend
-        id: lint_frontend
-        continue-on-error: true
-        run: |
-          npm run format:check
-          npm run lint
+      - name: Format Frontend
         working-directory: ./frontend
+        run: npm run format:check
+        continue-on-error: true
+
+      - name: Lint Frontend
+        working-directory: ./frontend
+        run: npm run lint
+        continue-on-error: true
 
       - name: Build Frontend
-        id: build_frontend
-        continue-on-error: true
-        run: npm run build
         working-directory: ./frontend
+        run: npm run build
+        continue-on-error: true
 
       - name: Install Backend
+        working-directory: ./backend
         run: npm ci
-        working-directory: ./backend
 
-      - name: Lint & Format Backend
-        id: lint_backend
-        continue-on-error: true
-        run: |
-          npm run format:check
-          npm run lint
+      - name: Format Backend
         working-directory: ./backend
+        run: npm run format:check
+        continue-on-error: true
+
+      - name: Lint Backend
+        working-directory: ./backend
+        run: npm run lint
+        continue-on-error: true
 
       - name: Build Backend
-        id: build_backend
-        continue-on-error: true
-        run: npm run build
         working-directory: ./backend
-
-      - name: Check for failures
-        if: |
-          steps.lint_frontend.outcome == 'failure' ||
-          steps.build_frontend.outcome == 'failure' ||
-          steps.lint_backend.outcome == 'failure' ||
-          steps.build_backend.outcome == 'failure'
-        run: |
-          echo "CI failed because one or more steps had errors."
-          exit 1
+        run: npm run build
+        continue-on-error: true

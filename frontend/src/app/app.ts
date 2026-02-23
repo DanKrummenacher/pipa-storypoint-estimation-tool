@@ -9,7 +9,7 @@ import { ApiService } from './core/api.service';
 })
 export class App implements OnInit {
   status = 'Loading...';
-  private apiService = inject(ApiService);
+  private apiService = injectpiService);
 
   ngOnInit() {
     this.apiService.getHealth().subscribe({
