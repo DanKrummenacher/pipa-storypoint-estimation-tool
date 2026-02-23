@@ -6,19 +6,11 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
-  },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
+    "test": "ng test",
+    "lint": "ng lint",
+    "format:check": "prettier --check \"src/**/*.{ts,html,scss,json}\"",
+    "format:fix": "prettier --write \"src/**/*.{ts,html,scss,json}\"",
+    "ready": "npm run format:fix && npm run lint"
   },
   "private": true,
   "packageManager": "npm@11.8.0",
@@ -36,8 +28,13 @@
     "@angular/build": "^21.1.4",
     "@angular/cli": "^21.1.4",
     "@angular/compiler-cli": "^21.1.0",
+    "angular-eslint": "21.2.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",
+    "typescript-eslint": "8.50.1",
     "vitest": "^4.0.8"
   }
 }

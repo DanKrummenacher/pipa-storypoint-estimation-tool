@@ -1,0 +1,43 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: storypoint-mongo
+    restart: always
+    networks:
+      - storypoint-network
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build: ./backend
+    container_name: storypoint-backend
+    restart: always
+    networks:
+      - storypoint-network
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/storypoint-db
+      - PORT=3000
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./frontend
+    container_name: storypoint-frontend
+    restart: always
+    networks:
+      - storypoint-network
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+networks:
+  storypoint-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
