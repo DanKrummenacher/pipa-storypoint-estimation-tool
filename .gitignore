@@ -1,6 +1,3 @@
-# OS Metadata
-.DS_Store
-
 # Logs
 logs
 *.log
@@ -140,3 +137,27 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# IDE
+.idea/
+
+# Angular
+.angular/
+/frontend/dist/
+
+# NestJS
+build/
+/backend/dist/
+
+# Datenbank & Docker
+/mongo-data/
+/data/db/
+.docker/
+docker-compose.override.yml
+
+# OS Metadata
+.DS_Store
+Thumbs.db
+
+# Tests
+coverage/
