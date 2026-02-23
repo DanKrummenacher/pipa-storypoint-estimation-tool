@@ -24,29 +24,47 @@ jobs:
             frontend/package-lock.json
 
       - name: Install Frontend
-        working-directory: ./frontend
         run: npm ci
+        working-directory: ./frontend
 
       - name: Lint & Format Frontend
-        working-directory: ./frontend
+        id: lint_frontend
+        continue-on-error: true
         run: |
           npm run format:check
           npm run lint
+        working-directory: ./frontend
 
       - name: Build Frontend
-        working-directory: ./frontend
+        id: build_frontend
+        continue-on-error: true
         run: npm run build
+        working-directory: ./frontend
 
       - name: Install Backend
-        working-directory: ./backend
         run: npm ci
+        working-directory: ./backend
 
       - name: Lint & Format Backend
-        working-directory: ./backend
+        id: lint_backend
+        continue-on-error: true
         run: |
           npm run format:check
           npm run lint
+        working-directory: ./backend
 
       - name: Build Backend
-        working-directory: ./backend
+        id: build_backend
+        continue-on-error: true
         run: npm run build
+        working-directory: ./backend
+
+      - name: Check for failures
+        if: |
+          steps.lint_frontend.outcome == 'failure' ||
+          steps.build_frontend.outcome == 'failure' ||
+          steps.lint_backend.outcome == 'failure' ||
+          steps.build_backend.outcome == 'failure'
+        run: |
+          echo "CI failed because one or more steps had errors."
+          exit 1
