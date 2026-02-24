@@ -8,9 +8,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss,json}\"",
     "format:fix": "prettier --write \"src/**/*.{ts,html,scss,json}\"",
-    "ready": "npm run format:fix && npm run lint"
+    "ready": "npm run format:fix && npm run lint:fix"
   },
   "private": true,
   "packageManager": "npm@11.8.0",

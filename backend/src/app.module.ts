@@ -13,7 +13,7 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
     }),
     MongooseModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: onfigService) => ({
+      useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('MONGO_URI'),
       }),
     }),
