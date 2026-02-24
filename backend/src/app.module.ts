@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { RoomsModule } from './rooms/rooms.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
         uri: configService.get<string>('MONGO_URI'),
       }),
     }),
+    RoomsModule,
   ],
   controllers: [AppController],
   providers: [
