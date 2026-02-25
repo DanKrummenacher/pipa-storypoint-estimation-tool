@@ -13,7 +13,11 @@
 
         @if (room.status === 'voting') {
           <span>
-            @if (p.vote === null) { Noch nicht geschätzt } @else { Geschätzt }
+            @if (p.vote === null) {
+              Noch nicht geschätzt
+            } @else {
+              Geschätzt
+            }
           </span>
         }
 
@@ -29,7 +33,7 @@
       <div>
         <h3>Wähle eine Karte</h3>
         @for (value of fibonacci; track value) {
-          <button (click)="vote(value)" style="margin-right: 5px;">
+          <button (click)="vote(value)" style="margin-right: 5px">
             {{ value }}
           </button>
         }
