@@ -1,23 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ApiService } from './core/api.service';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App implements OnInit {
-  status = 'Loading...';
-  private apiService = inject(ApiService);
-
-  ngOnInit() {
-    this.apiService.getHealth().subscribe({
-      next: (data) => (this.status = data.status),
-      error: (err) => {
-        console.error(err);
-        this.status = 'Error: Backend not available';
-      },
-    });
-  }
-}
+export class App {}

@@ -15,7 +15,6 @@ export class RoomsService {
 
   async createRoom(name: string): Promise<Room> {
     const roomCode = this.generateRoomCode();
-
     const room = new this.roomModel({
       name,
       roomCode,
@@ -38,11 +37,9 @@ export class RoomsService {
     if (!room) return null;
 
     const participant = room.participants.find((p) => p.userId === userId);
-
     if (!participant) return null;
 
     participant.vote = value;
-
     const allVoted = room.participants.every((p) => p.vote !== null);
 
     if (allVoted) {
@@ -50,7 +47,6 @@ export class RoomsService {
     }
 
     await room.save();
-
     const updatedRoom = await this.roomModel.findOne({ roomCode });
 
     if (updatedRoom?.status === 'revealed') {
@@ -60,22 +56,18 @@ export class RoomsService {
         results,
       };
     }
-
     return updatedRoom;
   }
 
   async reset(roomCode: string) {
     const room = await this.roomModel.findOne({ roomCode });
     if (!room) return null;
-
     room.status = 'voting';
 
     room.participants.forEach((p) => {
       p.vote = null;
     });
-
     await room.save();
-
     return room;
   }
 
@@ -85,7 +77,6 @@ export class RoomsService {
     if (votes.length === 0) return null;
 
     const average = votes.reduce((a, b) => a + b, 0) / votes.length;
-
     const frequencyMap = new Map<number, number>();
 
     votes.forEach((vote) => {
@@ -103,7 +94,6 @@ export class RoomsService {
     });
 
     const recommendation = this.getClosestFibonacci(average);
-
     return {
       average: Number(average.toFixed(2)),
       mostCommon,
@@ -119,18 +109,15 @@ export class RoomsService {
 
   async reveal(roomCode: string) {
     const room = await this.roomModel.findOne({ roomCode });
+
     if (!room) return null;
-
     room.status = 'revealed';
-
     await room.save();
 
     const updatedRoom = await this.roomModel.findOne({ roomCode });
 
     if (!updatedRoom) return null;
-
     const results = this.calculateResults(updatedRoom);
-
     return {
       ...updatedRoom.toObject(),
       results,
@@ -144,7 +131,10 @@ export class RoomsService {
     room.participants = room.participants.filter((p) => p.userId !== userId);
 
     await room.save();
-
     return room;
+  }
+
+  async findAll() {
+    return this.roomModel.find();
   }
 }
