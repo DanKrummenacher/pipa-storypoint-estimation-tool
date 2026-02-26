@@ -1,0 +1,60 @@
+@use '@css-ch/calc-design-tokens/miscs';
+@use '@css-ch/web-design-tokens/colors';
+@use '@css-ch/calc-helpers/styles' as functions;
+
+%text-base {
+  font-size: miscs.$css-ui-font-size-xxl;
+  font-weight: miscs.$css-ui-font-weight-regular;
+  color: colors.$dt-color-darkblue-100;
+}
+
+:host {
+  display: block;
+}
+
+.header {
+  height: functions.rem(80);
+  background-color: colors.$dt-color-white-100;
+  border-bottom: 1px solid colors.$dt-color-darkblue-70;
+  display: flex;
+  align-items: center;
+}
+
+.header-container {
+  width: 100%;
+  max-width: functions.rem(1440);
+  margin: 0 auto;
+  padding: 0 functions.rem(40);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  width: functions.rem(80);
+  height: functions.rem(34);
+}
+
+.divider {
+  @extend %text-base;
+  user-select: none;
+  margin: 0 1rem;
+}
+
+.title {
+  @extend %text-base;
+  white-space: nowrap;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: functions.rem(40);
+}

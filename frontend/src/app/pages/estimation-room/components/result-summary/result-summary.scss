@@ -1,0 +1,68 @@
+@use '@css-ch/calc-design-tokens/miscs';
+@use '@css-ch/web-design-tokens/colors';
+@use '@css-ch/calc-helpers/styles' as functions;
+
+:host {
+  display: block;
+}
+
+.result-container {
+  background-color: colors.$dt-color-white-100;
+}
+
+.result-inner {
+  width: 100%;
+  max-width: functions.rem(1920);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.action-bar {
+  position: absolute;
+  top: functions.rem(25);
+  right: functions.rem(25);
+}
+
+.result-header {
+  padding-top: functions.rem(25);
+  padding-left: functions.rem(25);
+  display: flex;
+  flex-direction: column;
+  color: colors.$dt-color-darkblue-100;
+}
+
+.result-cards-area {
+  margin-top: functions.rem(28);
+  padding: 0 functions.rem(25) functions.rem(30);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: functions.rem(30);
+}
+
+.result-card {
+  width: functions.rem(280);
+  height: functions.rem(140);
+  border: 1px solid colors.$dt-color-darkblue-100;
+  border-radius: functions.rem(5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.card-label {
+  text-align: center;
+  padding: 0 functions.rem(10);
+  margin-bottom: functions.rem(15);
+}
+
+.card-value {
+  font-family: miscs.$css-ui-font-family;
+  font-size: functions.rem(40);
+  font-weight: miscs.$css-ui-font-weight-regular;
+  color: colors.$dt-color-darkblue-100;
+}

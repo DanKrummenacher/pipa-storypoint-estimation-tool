@@ -1,0 +1,35 @@
+<div class="room-container">
+  <app-header
+    mode="room"
+    [roomName]="roomName()"
+    [roomId]="roomId()"
+    [userName]="userName()"
+  >
+  </app-header>
+
+  <app-participant-grid></app-participant-grid>
+
+  <main class="dynamic-info-area">
+    <div class="info-wrapper">
+      <calc-icon icon="certificate" class="info-icon"></calc-icon>
+
+      <div class="info-text-group">
+        <calc-text textLarge textLead class="info-title">
+          Bereit zum Schätzen?
+        </calc-text>
+        <calc-text textMedium class="info-description">
+          Bitte schaue dir das entsprechende Ticket in Jira an, um alle Details zu
+          prüfen, und gib hier deine Schätzung ab.
+        </calc-text>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bottom-area">
+    @if (!isRevealed()) {
+      <app-card-selection (revealCards)="toggleReveal()"></app-card-selection>
+    } @else {
+      <app-result-summary (nextRound)="resetRound()"></app-result-summary>
+    }
+  </footer>
+</div>

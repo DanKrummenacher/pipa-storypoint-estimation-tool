@@ -1,0 +1,33 @@
+<header class="header">
+  <div class="header-container">
+    <div class="header-left">
+      <calc-logo class="logo"></calc-logo>
+      <span class="divider" aria-hidden="true">|</span>
+
+      @if (mode() === 'lobby') {
+        <h1 class="title">Story Point Estimation</h1>
+      } @else {
+        <h1 class="title">{{ roomName() }}</h1>
+      }
+    </div>
+
+    @if (mode() === 'room') {
+      <div class="header-actions">
+        <calc-button variant="transparent" (click)="copyId.emit(roomId())">
+          <calc-icon icon="copy" slot="icon"></calc-icon>
+          {{ roomId() }}
+        </calc-button>
+
+        <calc-button variant="transparent" disabled>
+          <calc-icon icon="avatar" slot="icon"></calc-icon>
+          {{ userName() }}
+        </calc-button>
+
+        <calc-button variant="transparent" (click)="leaveRoom.emit()">
+          <calc-icon icon="logout" slot="icon"></calc-icon>
+          Verlassen
+        </calc-button>
+      </div>
+    }
+  </div>
+</header>

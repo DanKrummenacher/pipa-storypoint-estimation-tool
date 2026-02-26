@@ -1,0 +1,60 @@
+@use '@css-ch/calc-design-tokens/miscs';
+@use '@css-ch/web-design-tokens/colors';
+@use '@css-ch/calc-helpers/styles' as functions;
+
+.room-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.dynamic-info-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: functions.rem(20) functions.rem(40);
+}
+
+.info-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: functions.rem(20);
+  transition: all 0.3s ease;
+
+  @media (max-height: 800px) {
+    flex-direction: row;
+    text-align: left;
+  }
+}
+
+.info-icon {
+  width: functions.rem(60);
+  height: functions.rem(60);
+  color: colors.$dt-color-darkblue-100;
+  stroke-width: 2px;
+
+  @media (max-height: 800px) {
+    width: functions.rem(40);
+    height: functions.rem(40);
+  }
+}
+
+.info-title {
+  color: colors.$dt-color-darkblue-100;
+}
+
+.info-description {
+  max-width: functions.rem(500);
+
+  @media (max-height: 800px) {
+    max-width: none;
+  }
+}
+
+.bottom-area {
+  flex-shrink: 0;
+  border-top: 2px solid colors.$dt-color-darkblue-100;
+}

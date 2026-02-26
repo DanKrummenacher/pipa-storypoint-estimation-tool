@@ -1,0 +1,100 @@
+@use '@css-ch/calc-design-tokens/miscs';
+@use '@css-ch/web-design-tokens/colors';
+@use '@css-ch/calc-helpers/styles' as functions;
+
+:host {
+  display: block;
+}
+
+.grid-container {
+  background-color: colors.$dt-color-white-100;
+  border-bottom: 2px solid colors.$dt-color-darkblue-100;
+}
+
+.grid-inner {
+  width: 100%;
+  max-width: functions.rem(1920);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-header {
+  display: flex;
+  align-items: center;
+  padding: functions.rem(25) 0 0 functions.rem(25);
+  gap: functions.rem(10);
+  color: colors.$dt-color-darkblue-100;
+}
+
+.header-icon {
+  width: functions.rem(25);
+  height: functions.rem(25);
+  stroke-width: 4px;
+  flex-shrink: 0;
+}
+
+.participants-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: functions.rem(15);
+  padding: functions.rem(25) functions.rem(25) functions.rem(20);
+}
+
+.participant-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card {
+  width: functions.rem(90);
+  height: functions.rem(120);
+  border-radius: functions.rem(8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: functions.rem(15);
+  transition: background-color 0.3s ease;
+  background-color: #f7f7f4;
+  border: 1px dashed colors.$dt-color-darkblue-100;
+
+  &--estimated {
+    background-color: #00327d;
+    border: 1px solid #00327d;
+  }
+
+  &--revealed {
+    border: 1px solid colors.$dt-color-darkblue-100;
+  }
+}
+
+.estimation-value {
+  font-family: miscs.$css-ui-font-family;
+  font-size: functions.rem(40);
+  font-weight: miscs.$css-ui-font-weight-regular;
+  color: colors.$dt-color-darkblue-100;
+  user-select: none;
+}
+
+.status-icon {
+  width: functions.rem(40);
+  height: functions.rem(40);
+  stroke-width: 3px;
+
+  &--time {
+    color: colors.$dt-color-darkblue-100;
+  }
+
+  &--shield {
+    color: colors.$dt-color-white-100;
+  }
+}
+
+.participant-name {
+  text-align: center;
+  max-width: functions.rem(100);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
