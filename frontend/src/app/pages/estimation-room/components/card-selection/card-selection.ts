@@ -1,12 +1,8 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, input, output } from '@angular/core';
+import { EstimationCard } from '../../../../shared/models/room.model';
 import '@css-ch/calc-ui-text';
 import '@css-ch/calc-ui-button';
 import '@css-ch/calc-ui-icon';
-
-interface EstimationCard {
-  value: string;
-  color: string;
-}
 
 @Component({
   selector: 'app-card-selection',

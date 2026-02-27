@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { io, Socket as IoSocket } from 'socket.io-client';
 import { BehaviorSubject } from 'rxjs';
+import { RoomState } from '../shared/models/room.model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 export class Socket {
   private socket?: IoSocket;
 
-  roomState$ = new BehaviorSubject<any>(null);
+  roomState$ = new BehaviorSubject<RoomState | null>(null);
 
   connect() {
     if (this.socket) return;

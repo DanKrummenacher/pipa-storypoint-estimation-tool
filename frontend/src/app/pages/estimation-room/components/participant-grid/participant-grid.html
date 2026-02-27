@@ -8,7 +8,7 @@
     </div>
 
     <div class="participants-content">
-      @for (person of participants(); track person.name) {
+      @for (person of participants(); track person.id) {
         <div class="participant-item">
           <div
             class="card"
@@ -32,9 +32,9 @@
               <span class="estimation-value">{{ person.estimationValue }}</span>
             }
           </div>
-          <calc-text textMedium class="participant-name">{{
-            person.name
-          }}</calc-text>
+          <calc-text textMedium class="participant-name">
+            {{ person.name }} {{ person.isMe ? '(Du)' : '' }}
+          </calc-text>
         </div>
       }
     </div>

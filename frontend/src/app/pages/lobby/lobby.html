@@ -10,12 +10,8 @@
   </section>
 
   <section class="card-section">
-    <app-join-card
-      (onCreate)="handleCreateRoom($event)"
-      (onJoin)="handleJoinRoom($event)"
-      [roomCodeError]="roomError()"
-      [initialRoomCode]="initialRoomCode()"
-    >
+    <app-join-card (createRoom)="handleCreateRoom($event)" (joinRoom)="handleJoinRoom($event)"
+      [roomCodeError]="roomError()" [initialRoomCode]="initialRoomCode()">
     </app-join-card>
   </section>
 

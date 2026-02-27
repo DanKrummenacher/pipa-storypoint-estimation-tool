@@ -8,14 +8,12 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Header } from '../../components/layout/header/header';
-import {
-  Participant,
-  ParticipantGrid,
-} from './components/participant-grid/participant-grid';
+import { ParticipantGrid } from './components/participant-grid/participant-grid';
 import { CardSelection } from './components/card-selection/card-selection';
 import { ResultSummary } from './components/result-summary/result-summary';
 import { Socket } from '../../core/socket';
 import { Room } from '../../core/room';
+import { Participant, RoomState } from '../../shared/models/room.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import '@css-ch/calc-ui-text';
 import '@css-ch/calc-ui-icon';
@@ -46,34 +44,36 @@ export class EstimationRoom implements OnInit, OnDestroy {
   } | null>(null);
 
   constructor() {
-    this.socket.roomState$.pipe(takeUntilDestroyed()).subscribe((state) => {
-      if (state) {
-        this.roomName.set(state.name);
-        this.roomCode.set(state.roomCode);
-        this.status.set(state.status);
+    this.socket.roomState$
+      .pipe(takeUntilDestroyed())
+      .subscribe((state: RoomState | null) => {
+        if (state) {
+          this.roomName.set(state.name);
+          this.roomCode.set(state.roomCode);
+          this.status.set(state.status);
 
-        const mappedParticipants: Participant[] = state.participants.map(
-          (p: any) => ({
-            name: p.userId === this.userId() ? `${p.name} (Du)` : p.name,
+          const mappedParticipants: Participant[] = state.participants.map((p) => ({
+            id: p.userId,
+            name: p.name,
             hasEstimated: p.vote !== null,
             isRevealed: state.status === 'revealed',
+            isMe: p.userId === this.userId(),
             estimationValue: this.mapNumericToValue(p.vote),
-          }),
-        );
+          }));
 
-        this.participants.set(mappedParticipants);
+          this.participants.set(mappedParticipants);
 
-        if (state.results) {
-          this.results.set({
-            average: state.results.average?.toString() || '–',
-            mostCommon: this.mapNumericToValue(state.results.mostCommon) || '–',
-            recommendation: state.results.recommendation?.toString() || '–',
-          });
-        } else {
-          this.results.set(null);
+          if (state.results) {
+            this.results.set({
+              average: state.results.average?.toString() || '–',
+              mostCommon: this.mapNumericToValue(state.results.mostCommon) || '–',
+              recommendation: state.results.recommendation?.toString() || '–',
+            });
+          } else {
+            this.results.set(null);
+          }
         }
-      }
-    });
+      });
   }
 
   private mapNumericToValue(value: number | null): string | undefined {
@@ -94,7 +94,7 @@ export class EstimationRoom implements OnInit, OnDestroy {
     }
 
     this.roomService.getRoom(code).subscribe({
-      next: (room: { roomCode: string; name: string }) => {
+      next: (room) => {
         this.roomCode.set(room.roomCode);
         this.roomName.set(room.name);
         this.userName.set(storedUserName);
@@ -103,18 +103,12 @@ export class EstimationRoom implements OnInit, OnDestroy {
         this.socket.connect();
         this.socket.joinRoom(room.roomCode, storedUserId, storedUserName);
       },
-      error: () => {
-        this.router.navigate(['/']);
-      },
+      error: () => this.router.navigate(['/']),
     });
   }
 
-  getEstimatedCount(): number {
-    return this.participants().filter((p) => p.hasEstimated).length;
-  }
-
   getUserVote(): string | undefined {
-    return this.participants().find((p) => p.name.includes('(Du)'))?.estimationValue;
+    return this.participants().find((p) => p.isMe)?.estimationValue;
   }
 
   leaveRoom() {

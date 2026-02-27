@@ -21,8 +21,8 @@ import '@css-ch/calc-ui-icon';
   styleUrl: './join-card.scss',
 })
 export class JoinCard {
-  onCreate = output<{ roomName: string; userName: string }>();
-  onJoin = output<{ roomCode: string; userName: string }>();
+  createRoom = output<{ roomName: string; userName: string }>();
+  joinRoom = output<{ roomCode: string; userName: string }>();
 
   selectedMode = signal<'create' | 'join'>('create');
   showNotification = signal(true);
@@ -48,7 +48,7 @@ export class JoinCard {
     { label: 'Raum beitreten', value: 'join' },
   ];
 
-  onModeChange(event: any) {
+  handleModeChange(event: any) {
     this.selectedMode.set(event.detail);
   }
 
@@ -71,14 +71,14 @@ export class JoinCard {
   submit() {
     if (this.selectedMode() === 'create') {
       if (this.roomName().trim() && this.userName().trim()) {
-        this.onCreate.emit({
+        this.createRoom.emit({
           roomName: this.roomName(),
           userName: this.userName(),
         });
       }
     } else {
       if (this.roomCode().trim() && this.userName().trim()) {
-        this.onJoin.emit({
+        this.joinRoom.emit({
           roomCode: this.roomCode(),
           userName: this.userName(),
         });

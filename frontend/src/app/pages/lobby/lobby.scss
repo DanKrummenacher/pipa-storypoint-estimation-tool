@@ -11,12 +11,16 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  gap: functions.rem(40); // Standardized vertical spacing
 }
 
 .hero-section {
   margin-top: functions.rem(60);
   text-align: center;
   padding: 0 functions.rem(40);
+  display: flex;
+  flex-direction: column;
+  gap: functions.rem(20);
 }
 
 .hero-title {
@@ -27,16 +31,12 @@
 }
 
 .hero-description {
-  margin-top: functions.rem(20);
   max-width: functions.rem(750);
   line-height: 1.4;
-}
-
-.card-section {
-  margin-top: functions.rem(40);
+  margin: 0 auto;
 }
 
 .steps-section {
-  margin-top: functions.rem(50);
+  margin-top: functions.rem(10);
   width: 100%;
 }

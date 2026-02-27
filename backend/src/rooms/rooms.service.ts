@@ -10,7 +10,7 @@ export class RoomsService {
 
   constructor(
     @InjectModel(Room.name)
-    private roomModel: Model<RoomDocument>,
+    private readonly roomModel: Model<RoomDocument>,
   ) {}
 
   async createRoom(name: string): Promise<Room> {
@@ -47,28 +47,45 @@ export class RoomsService {
     }
 
     await room.save();
-    const updatedRoom = await this.roomModel.findOne({ roomCode });
 
-    if (updatedRoom?.status === 'revealed') {
-      const results = this.calculateResults(updatedRoom);
-      return {
-        ...updatedRoom.toObject(),
-        results,
-      };
+    if (room.status === 'revealed') {
+      return this.getRoomWithResults(roomCode);
     }
-    return updatedRoom;
+
+    return room;
   }
 
   async reset(roomCode: string) {
     const room = await this.roomModel.findOne({ roomCode });
     if (!room) return null;
-    room.status = 'voting';
 
+    room.status = 'voting';
     room.participants.forEach((p) => {
       p.vote = null;
     });
+
+    return room.save();
+  }
+
+  async reveal(roomCode: string) {
+    const room = await this.roomModel.findOne({ roomCode });
+    if (!room) return null;
+
+    room.status = 'revealed';
     await room.save();
-    return room;
+
+    return this.getRoomWithResults(roomCode);
+  }
+
+  private async getRoomWithResults(roomCode: string) {
+    const room = await this.roomModel.findOne({ roomCode });
+    if (!room) return null;
+
+    const results = this.calculateResults(room);
+    return {
+      ...room.toObject(),
+      results,
+    };
   }
 
   private calculateResults(room: Room) {
@@ -118,31 +135,12 @@ export class RoomsService {
     );
   }
 
-  async reveal(roomCode: string) {
-    const room = await this.roomModel.findOne({ roomCode });
-
-    if (!room) return null;
-    room.status = 'revealed';
-    await room.save();
-
-    const updatedRoom = await this.roomModel.findOne({ roomCode });
-
-    if (!updatedRoom) return null;
-    const results = this.calculateResults(updatedRoom);
-    return {
-      ...updatedRoom.toObject(),
-      results,
-    };
-  }
-
   async leaveRoom(roomCode: string, userId: string) {
     const room = await this.roomModel.findOne({ roomCode });
     if (!room) return null;
 
     room.participants = room.participants.filter((p) => p.userId !== userId);
-
-    await room.save();
-    return room;
+    return room.save();
   }
 
   async findAll() {
