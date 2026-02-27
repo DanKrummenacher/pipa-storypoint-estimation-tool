@@ -12,4 +12,10 @@ export class Room {
   createRoom(name: string): Observable<{ roomCode: string; name: string }> {
     return this.http.post<{ roomCode: string; name: string }>(this.apiUrl, { name });
   }
+
+  getRoom(roomCode: string): Observable<{ roomCode: string; name: string }> {
+    return this.http.get<{ roomCode: string; name: string }>(
+      `${this.apiUrl}/${roomCode}`,
+    );
+  }
 }

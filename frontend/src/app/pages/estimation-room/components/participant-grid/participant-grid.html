@@ -1,0 +1,42 @@
+<div class="grid-container">
+  <div class="grid-inner">
+    <div class="grid-header">
+      <calc-icon icon="conference" class="header-icon"></calc-icon>
+      <calc-text textLarge textLead>
+        Teilnehmer ({{ estimatedCount() }}/{{ totalCount() }} geschätzt)
+      </calc-text>
+    </div>
+
+    <div class="participants-content">
+      @for (person of participants(); track person.id) {
+        <div class="participant-item">
+          <div
+            class="card"
+            [class.card--estimated]="person.hasEstimated && !person.isRevealed"
+            [class.card--revealed]="person.isRevealed"
+            [style.background-color]="
+              person.isRevealed ? getEstimationColor(person.estimationValue) : null
+            "
+          >
+            @if (!person.hasEstimated) {
+              <calc-icon
+                icon="time"
+                class="status-icon status-icon--time"
+              ></calc-icon>
+            } @else if (!person.isRevealed) {
+              <calc-icon
+                icon="shield-security"
+                class="status-icon status-icon--shield"
+              ></calc-icon>
+            } @else {
+              <span class="estimation-value">{{ person.estimationValue }}</span>
+            }
+          </div>
+          <calc-text textMedium class="participant-name">
+            {{ person.name }} {{ person.isMe ? '(Du)' : '' }}
+          </calc-text>
+        </div>
+      }
+    </div>
+  </div>
+</div>

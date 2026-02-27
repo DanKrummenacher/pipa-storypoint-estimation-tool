@@ -1,20 +1,23 @@
 import { Injectable } from '@angular/core';
 import { io, Socket as IoSocket } from 'socket.io-client';
 import { BehaviorSubject } from 'rxjs';
+import { RoomState } from '../shared/models/room.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Socket {
-  private socket!: IoSocket;
+  private socket?: IoSocket;
 
-  roomState$ = new BehaviorSubject<any>(null);
+  roomState$ = new BehaviorSubject<RoomState | null>(null);
 
   connect() {
+    if (this.socket) return;
+
     this.socket = io('http://localhost:3000');
 
     this.socket.on('connect', () => {
-      console.log('Connected:', this.socket.id);
+      console.log('Connected:', this.socket?.id);
     });
 
     this.socket.on('roomState', (data) => {
@@ -22,27 +25,42 @@ export class Socket {
     });
 
     this.socket.on('roomError', (err) => {
-      console.error(err);
+      console.error('Room Error:', err);
+    });
+
+    this.socket.on('disconnect', () => {
+      console.log('Disconnected');
     });
   }
 
   joinRoom(roomCode: string, userId: string, name: string) {
-    this.socket.emit('joinRoom', { roomCode, userId, name });
+    this.ensureConnected();
+    this.socket?.emit('joinRoom', { roomCode, userId, name });
   }
 
   vote(roomCode: string, userId: string, value: number) {
-    this.socket.emit('vote', { roomCode, userId, value });
+    this.ensureConnected();
+    this.socket?.emit('vote', { roomCode, userId, value });
   }
 
   reveal(roomCode: string) {
-    this.socket.emit('reveal', { roomCode });
+    this.ensureConnected();
+    this.socket?.emit('reveal', { roomCode });
   }
 
   reset(roomCode: string) {
-    this.socket.emit('reset', { roomCode });
+    this.ensureConnected();
+    this.socket?.emit('reset', { roomCode });
   }
 
   leaveRoom(roomCode: string, userId: string) {
-    this.socket.emit('leaveRoom', { roomCode, userId });
+    this.ensureConnected();
+    this.socket?.emit('leaveRoom', { roomCode, userId });
+  }
+
+  private ensureConnected() {
+    if (!this.socket) {
+      this.connect();
+    }
   }
 }

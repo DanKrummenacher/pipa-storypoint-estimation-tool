@@ -1,0 +1,40 @@
+@use '@css-ch/calc-design-tokens/miscs';
+@use '@css-ch/web-design-tokens/colors';
+@use '@css-ch/calc-helpers/styles' as functions;
+
+:host {
+  display: block;
+}
+
+.card {
+  width: functions.rem(590);
+  background-color: colors.$dt-color-white-100;
+  border-radius: functions.rem(24);
+  border: 1px solid colors.$dt-color-darkblue-70;
+  overflow: hidden;
+}
+
+.card-content {
+  padding: functions.rem(40) functions.rem(60) functions.rem(50);
+  display: flex;
+  flex-direction: column;
+  gap: functions.rem(25);
+}
+
+.card-title {
+  font-size: miscs.$css-ui-font-size-xxl;
+  font-weight: miscs.$css-ui-font-weight-bold;
+  color: colors.$dt-color-darkblue-100;
+  margin: 0;
+  text-align: center;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: functions.rem(20);
+}
+
+.button-wrapper {
+  margin-top: functions.rem(5);
+}

@@ -1,1 +1,51 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@css-ch/calc-design-tokens/miscs';
+@use '@css-ch/web-design-tokens/colors';
+
+html,
+body {
+  background-color: colors.$dt-color-pepper-bright;
+  margin: 0;
+  padding: 0;
+}
+* {
+  font-family: miscs.$css-ui-font-family;
+}
+
+@font-face {
+  font-weight: 300;
+  font-family: MuseoSans;
+  font-style: normal;
+  font-display: swap;
+
+  src:
+    url('../node_modules/@css-ch/web-design-tokens/assets/fonts/MuseoSans300-webfont.woff2')
+      format('woff2'),
+    url('../node_modules/@css-ch/web-design-tokens/assets/fonts/MuseoSans300-webfont.woff')
+      format('woff');
+}
+
+@font-face {
+  font-weight: 500;
+  font-family: MuseoSans;
+  font-style: normal;
+  font-display: swap;
+
+  src:
+    url('../node_modules/@css-ch/web-design-tokens/assets/fonts/MuseoSans500-webfont.woff2')
+      format('woff2'),
+    url('../node_modules/@css-ch/web-design-tokens/assets/fonts/MuseoSans500-webfont.woff')
+      format('woff');
+}
+
+@font-face {
+  font-weight: 700;
+  font-family: MuseoSans;
+  font-style: normal;
+  font-display: swap;
+
+  src:
+    url('../node_modules/@css-ch/web-design-tokens/assets/fonts/MuseoSans700-webfont.woff2')
+      format('woff2'),
+    url('../node_modules/@css-ch/web-design-tokens/assets/fonts/MuseoSans700-webfont.woff')
+      format('woff');
+}

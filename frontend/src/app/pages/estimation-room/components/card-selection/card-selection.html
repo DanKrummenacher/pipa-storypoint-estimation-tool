@@ -1,0 +1,31 @@
+<div class="selection-container">
+  <div class="selection-inner">
+    <div class="action-bar">
+      <calc-button variant="primary" (click)="revealCards.emit()">
+        <calc-icon icon="view" slot="icon"></calc-icon>
+        Aufdecken
+      </calc-button>
+    </div>
+
+    <div class="selection-header">
+      <calc-text textLarge textLead>Wähle deine Schätzung</calc-text>
+      <calc-text textMedium
+        >Klicke auf eine Karte, um deine Story Points abzugeben</calc-text
+      >
+    </div>
+
+    <div class="cards-row">
+      @for (card of availableCards; track card.value) {
+        <button
+          class="selection-card"
+          [class.selection-card--active]="card.value === selectedCard()"
+          [style.background-color]="card.color"
+          (click)="cardSelected.emit(card.value)"
+          [attr.aria-label]="'Karte ' + card.value + ' wählen'"
+        >
+          <span class="card-value">{{ card.value }}</span>
+        </button>
+      }
+    </div>
+  </div>
+</div>

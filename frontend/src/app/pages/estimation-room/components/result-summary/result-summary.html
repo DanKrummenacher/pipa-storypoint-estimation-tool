@@ -1,0 +1,36 @@
+<div class="result-container">
+  <div class="result-inner">
+    <div class="action-bar">
+      <calc-button variant="primary" (click)="nextRound.emit()">
+        <calc-icon icon="undo" slot="icon"></calc-icon>
+        Neue Runde
+      </calc-button>
+    </div>
+
+    <div class="result-header">
+      <calc-text textLarge textLead>Ergebnisse</calc-text>
+      <calc-text textMedium
+        >Tauscht euch über eure unterschiedlichen Sichtweisen aus.</calc-text
+      >
+    </div>
+
+    <div class="result-cards-area">
+      <div class="result-card">
+        <calc-text textLarge textLead class="card-label">Häufigster Wert</calc-text>
+        <span class="card-value">{{ mostFrequent() }}</span>
+      </div>
+
+      <div class="result-card">
+        <calc-text textLarge textLead class="card-label"
+          >Numerischer Durchschnitt</calc-text
+        >
+        <span class="card-value">{{ average() }}</span>
+      </div>
+
+      <div class="result-card">
+        <calc-text textLarge textLead class="card-label">Empfehlung</calc-text>
+        <span class="card-value">{{ recommendation() }}</span>
+      </div>
+    </div>
+  </div>
+</div>

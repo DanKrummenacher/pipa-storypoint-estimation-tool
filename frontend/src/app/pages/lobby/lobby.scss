@@ -1,0 +1,42 @@
+@use '@css-ch/calc-design-tokens/miscs';
+@use '@css-ch/web-design-tokens/colors';
+@use '@css-ch/calc-helpers/styles' as functions;
+
+:host {
+  display: block;
+}
+
+.lobby-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: functions.rem(40); // Standardized vertical spacing
+}
+
+.hero-section {
+  margin-top: functions.rem(60);
+  text-align: center;
+  padding: 0 functions.rem(40);
+  display: flex;
+  flex-direction: column;
+  gap: functions.rem(20);
+}
+
+.hero-title {
+  font-size: functions.rem(48);
+  font-weight: miscs.$css-ui-font-weight-medium;
+  color: colors.$dt-color-darkblue-100;
+  margin: 0;
+}
+
+.hero-description {
+  max-width: functions.rem(750);
+  line-height: 1.4;
+  margin: 0 auto;
+}
+
+.steps-section {
+  margin-top: functions.rem(10);
+  width: 100%;
+}
