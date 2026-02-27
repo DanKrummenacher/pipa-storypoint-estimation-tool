@@ -72,30 +72,41 @@ export class RoomsService {
   }
 
   private calculateResults(room: Room) {
-    const votes = room.participants.map((p) => p.vote).filter((v) => v !== null);
+    const allVotes = room.participants.map((p) => p.vote).filter((v) => v !== null);
 
-    if (votes.length === 0) return null;
+    if (allVotes.length === 0) return null;
 
-    const average = votes.reduce((a, b) => a + b, 0) / votes.length;
+    const numericVotes = allVotes.filter((v) => v > 0);
+
+    let average: number | null = null;
+    let recommendation: number | null = null;
+
+    if (numericVotes.length > 0) {
+      average = numericVotes.reduce((a, b) => a + b, 0) / numericVotes.length;
+      recommendation = this.getClosestFibonacci(average);
+    }
+
     const frequencyMap = new Map<number, number>();
-
-    votes.forEach((vote) => {
+    allVotes.forEach((vote) => {
       frequencyMap.set(vote, (frequencyMap.get(vote) || 0) + 1);
     });
 
-    let mostCommon = votes[0];
     let maxCount = 0;
+    let candidates: number[] = [];
 
     frequencyMap.forEach((count, value) => {
       if (count > maxCount) {
         maxCount = count;
-        mostCommon = value;
+        candidates = [value];
+      } else if (count === maxCount) {
+        candidates.push(value);
       }
     });
 
-    const recommendation = this.getClosestFibonacci(average);
+    const mostCommon = candidates.length === 1 ? candidates[0] : null;
+
     return {
-      average: Number(average.toFixed(2)),
+      average: average !== null ? Number(average.toFixed(2)) : null,
       mostCommon,
       recommendation,
     };

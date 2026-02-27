@@ -24,7 +24,7 @@
   gap: functions.rem(20);
   transition: all 0.3s ease;
 
-  @media (max-height: 800px) {
+  @media (max-height: 900px) {
     flex-direction: row;
     text-align: left;
   }
@@ -36,7 +36,7 @@
   color: colors.$dt-color-darkblue-100;
   stroke-width: 2px;
 
-  @media (max-height: 800px) {
+  @media (max-height: 900px) {
     width: functions.rem(40);
     height: functions.rem(40);
   }
@@ -49,7 +49,7 @@
 .info-description {
   max-width: functions.rem(500);
 
-  @media (max-height: 800px) {
+  @media (max-height: 900px) {
     max-width: none;
   }
 }

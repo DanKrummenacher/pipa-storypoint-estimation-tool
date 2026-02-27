@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, output } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, input, output } from '@angular/core';
 import '@css-ch/calc-ui-text';
 import '@css-ch/calc-ui-button';
 import '@css-ch/calc-ui-icon';
@@ -18,6 +18,7 @@ interface EstimationCard {
 export class CardSelection {
   cardSelected = output<string>();
   revealCards = output<void>();
+  selectedCard = input<string | undefined>();
 
   readonly availableCards: EstimationCard[] = [
     { value: '?', color: '#BEBFBF' },

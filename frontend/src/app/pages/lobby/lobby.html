@@ -10,7 +10,13 @@
   </section>
 
   <section class="card-section">
-    <app-join-card></app-join-card>
+    <app-join-card
+      (onCreate)="handleCreateRoom($event)"
+      (onJoin)="handleJoinRoom($event)"
+      [roomCodeError]="roomError()"
+      [initialRoomCode]="initialRoomCode()"
+    >
+    </app-join-card>
   </section>
 
   <section class="steps-section">

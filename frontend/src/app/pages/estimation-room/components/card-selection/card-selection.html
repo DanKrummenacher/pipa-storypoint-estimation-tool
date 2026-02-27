@@ -18,6 +18,7 @@
       @for (card of availableCards; track card.value) {
         <button
           class="selection-card"
+          [class.selection-card--active]="card.value === selectedCard()"
           [style.background-color]="card.color"
           (click)="cardSelected.emit(card.value)"
           [attr.aria-label]="'Karte ' + card.value + ' wählen'"

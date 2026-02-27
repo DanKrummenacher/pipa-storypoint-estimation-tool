@@ -1,9 +1,17 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  effect,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import '@css-ch/calc-ui-toggle-group';
 import '@css-ch/calc-ui-input-text';
 import '@css-ch/calc-ui-notification';
 import '@css-ch/calc-ui-button';
 import '@css-ch/calc-ui-text';
+import '@css-ch/calc-ui-icon';
 
 @Component({
   selector: 'app-join-card',
@@ -13,19 +21,68 @@ import '@css-ch/calc-ui-text';
   styleUrl: './join-card.scss',
 })
 export class JoinCard {
+  onCreate = output<{ roomName: string; userName: string }>();
+  onJoin = output<{ roomCode: string; userName: string }>();
+
+  selectedMode = signal<'create' | 'join'>('create');
+  showNotification = signal(true);
+
+  roomName = signal('');
+  userName = signal('');
+  roomCode = signal('');
+  roomCodeError = input<string | undefined>();
+  initialRoomCode = input<string | undefined>();
+
+  constructor() {
+    effect(() => {
+      const code = this.initialRoomCode();
+      if (code) {
+        this.selectedMode.set('join');
+        this.roomCode.set(code);
+      }
+    });
+  }
+
   toggleOptions = [
     { label: 'Raum erstellen', value: 'create' },
     { label: 'Raum beitreten', value: 'join' },
   ];
 
-  selectedMode = 'create';
-  showNotification = true;
-
   onModeChange(event: any) {
-    this.selectedMode = event.detail;
+    this.selectedMode.set(event.detail);
   }
 
   closeNotification() {
-    this.showNotification = false;
+    this.showNotification.set(false);
+  }
+
+  updateRoomName(event: any) {
+    this.roomName.set(event.detail);
+  }
+
+  updateUserName(event: any) {
+    this.userName.set(event.detail);
+  }
+
+  updateRoomCode(event: any) {
+    this.roomCode.set(event.detail);
+  }
+
+  submit() {
+    if (this.selectedMode() === 'create') {
+      if (this.roomName().trim() && this.userName().trim()) {
+        this.onCreate.emit({
+          roomName: this.roomName(),
+          userName: this.userName(),
+        });
+      }
+    } else {
+      if (this.roomCode().trim() && this.userName().trim()) {
+        this.onJoin.emit({
+          roomCode: this.roomCode(),
+          userName: this.userName(),
+        });
+      }
+    }
   }
 }

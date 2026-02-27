@@ -61,6 +61,12 @@
   &:active {
     filter: brightness(0.8);
   }
+
+  &--active {
+    outline: 4px solid colors.$dt-color-darkblue-100;
+    outline-offset: 4px;
+    filter: brightness(0.9);
+  }
 }
 
 .card-value {
