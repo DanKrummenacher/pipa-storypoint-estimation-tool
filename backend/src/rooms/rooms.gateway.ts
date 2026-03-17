@@ -14,7 +14,10 @@ import { VoteDto } from './dto/vote.dto';
 import { RoomState } from './types/room-state.type';
 
 @WebSocketGateway({
-  cors: { origin: '*' },
+  cors: {
+    origin: process.env.CORS_ORIGIN || '*',
+    credentials: true,
+  },
 })
 export class RoomsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
