@@ -25,7 +25,7 @@ export class RoomsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private disconnectTimeouts = new Map<string, NodeJS.Timeout>();
 
-  constructor(private readonly roomsService: RoomsService) { }
+  constructor(private readonly roomsService: RoomsService) {}
 
   handleConnection(client: Socket) {
     console.log('Client connected:', client.id);

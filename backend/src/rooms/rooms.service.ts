@@ -11,7 +11,7 @@ export class RoomsService {
   constructor(
     @InjectModel(Room.name)
     private readonly roomModel: Model<RoomDocument>,
-  ) { }
+  ) {}
 
   async createRoom(name: string): Promise<Room> {
     const roomCode = this.generateRoomCode();

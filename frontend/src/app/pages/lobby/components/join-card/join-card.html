@@ -2,57 +2,98 @@
   <div class="card-content">
     <h2 class="card-title">Jetzt starten</h2>
 
-    <calc-toggle-group id="mode-toggle" [options]="toggleOptions" [value]="selectedMode()"
-      (change)="handleModeChange($event)" class="mode-toggle"></calc-toggle-group>
+    <calc-toggle-group
+      id="mode-toggle"
+      [options]="toggleOptions"
+      [value]="selectedMode()"
+      (change)="handleModeChange($event)"
+      class="mode-toggle"
+    ></calc-toggle-group>
 
     @if (
-    (selectedMode() === 'create' && showNotification()) ||
-    selectedMode() === 'join'
+      (selectedMode() === 'create' && showNotification()) ||
+      selectedMode() === 'join'
     ) {
-    <div class="info-area">
-      @if (selectedMode() === 'create' && showNotification()) {
-      <calc-notification type="info" title="Tipp" ariaLabelCloseButton="Schliessen" (close)="closeNotification()">
-        Teile den Sitzungscode mit deinem Team, damit alle dem gleichen Raum
-        beitreten können.
-      </calc-notification>
-      }
+      <div class="info-area">
+        @if (selectedMode() === 'create' && showNotification()) {
+          <calc-notification
+            type="info"
+            title="Tipp"
+            ariaLabelCloseButton="Schliessen"
+            (close)="closeNotification()"
+          >
+            Teile den Sitzungscode mit deinem Team, damit alle dem gleichen Raum
+            beitreten können.
+          </calc-notification>
+        }
 
-      @if (selectedMode() === 'join') {
-      <calc-text textSmall class="join-description">
-        Tritt einer laufenden Sitzung mit dem 6-stelligen Code bei.
-      </calc-text>
-      }
-    </div>
+        @if (selectedMode() === 'join') {
+          <calc-text textSmall class="join-description">
+            Tritt einer laufenden Sitzung mit dem 6-stelligen Code bei.
+          </calc-text>
+        }
+      </div>
     }
 
     <div class="input-container">
       @if (selectedMode() === 'create') {
-      <calc-input-text id="room-name" label="Bezeichnung des Raums" placeholder="z.B. Sprint 67 Refinement"
-        [value]="roomName()" (change)="updateRoomName($event)" class="input-field"></calc-input-text>
+        <calc-input-text
+          id="room-name"
+          label="Bezeichnung des Raums"
+          placeholder="z.B. Sprint 67 Refinement"
+          [value]="roomName()"
+          (change)="updateRoomName($event)"
+          class="input-field"
+        ></calc-input-text>
 
-      <calc-input-text id="user-name-create" label="Dein Name" placeholder="z.B. Max Mustermann" [value]="userName()"
-        (change)="updateUserName($event)" class="input-field"></calc-input-text>
+        <calc-input-text
+          id="user-name-create"
+          label="Dein Name"
+          placeholder="z.B. Max Mustermann"
+          [value]="userName()"
+          (change)="updateUserName($event)"
+          class="input-field"
+        ></calc-input-text>
       } @else {
-      <calc-input-text id="room-id" label="Raum-ID" placeholder="z.B. AGQ367" [value]="roomCode()"
-        [errorMessage]="roomCodeError()" (change)="updateRoomCode($event)" class="input-field"></calc-input-text>
+        <calc-input-text
+          id="room-id"
+          label="Raum-ID"
+          placeholder="z.B. AGQ367"
+          [value]="roomCode()"
+          [errorMessage]="roomCodeError()"
+          (change)="updateRoomCode($event)"
+          class="input-field"
+        ></calc-input-text>
 
-      <calc-input-text id="user-name-join" label="Dein Name" placeholder="z.B. Max Mustermann" [value]="userName()"
-        (change)="updateUserName($event)" class="input-field"></calc-input-text>
+        <calc-input-text
+          id="user-name-join"
+          label="Dein Name"
+          placeholder="z.B. Max Mustermann"
+          [value]="userName()"
+          (change)="updateUserName($event)"
+          class="input-field"
+        ></calc-input-text>
       }
     </div>
 
     <div class="button-wrapper">
-      <calc-button variant="primary" expanded class="action-button" (click)="submit()" [disabled]="
+      <calc-button
+        variant="primary"
+        expanded
+        class="action-button"
+        (click)="submit()"
+        [disabled]="
           selectedMode() === 'create'
             ? !roomName().trim() || !userName().trim()
             : !roomCode().trim() || !userName().trim()
-        ">
+        "
+      >
         @if (selectedMode() === 'create') {
-        <calc-icon icon="add" slot="icon"></calc-icon>
-        Erstellen
+          <calc-icon icon="add" slot="icon"></calc-icon>
+          Erstellen
         } @else {
-        <calc-icon icon="conference" slot="icon"></calc-icon>
-        Beitreten
+          <calc-icon icon="conference" slot="icon"></calc-icon>
+          Beitreten
         }
       </calc-button>
     </div>
