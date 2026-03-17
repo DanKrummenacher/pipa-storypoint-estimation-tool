@@ -48,24 +48,25 @@ export class JoinCard {
     { label: 'Raum beitreten', value: 'join' },
   ];
 
-  handleModeChange(event: any) {
-    this.selectedMode.set(event.detail);
+  handleModeChange(event: Event) {
+    const detail = (event as CustomEvent<string>).detail;
+    this.selectedMode.set(detail as 'create' | 'join');
   }
 
   closeNotification() {
     this.showNotification.set(false);
   }
 
-  updateRoomName(event: any) {
-    this.roomName.set(event.detail);
+  updateRoomName(event: Event) {
+    this.roomName.set((event as CustomEvent<string>).detail);
   }
 
-  updateUserName(event: any) {
-    this.userName.set(event.detail);
+  updateUserName(event: Event) {
+    this.userName.set((event as CustomEvent<string>).detail);
   }
 
-  updateRoomCode(event: any) {
-    this.roomCode.set(event.detail);
+  updateRoomCode(event: Event) {
+    this.roomCode.set((event as CustomEvent<string>).detail);
   }
 
   submit() {

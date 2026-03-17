@@ -51,11 +51,12 @@ jobs:
         working-directory: ./backend
         run: npm ci
 
-      - name: Lint & Format
+      - name: Lint, Format & Test
         working-directory: ./backend
         run: |
           npm run format:check
           npm run lint
+          npm test
 
       - name: Build
         working-directory: ./backend
