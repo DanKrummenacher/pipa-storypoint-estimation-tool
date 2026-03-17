@@ -14,7 +14,10 @@ import { VoteDto } from './dto/vote.dto';
 import { RoomState } from './types/room-state.type';
 
 @WebSocketGateway({
-  cors: { origin: '*' },
+  cors: {
+    origin: process.env.CORS_ORIGIN || '*',
+    credentials: true,
+  },
 })
 export class RoomsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
@@ -22,7 +25,7 @@ export class RoomsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private disconnectTimeouts = new Map<string, NodeJS.Timeout>();
 
-  constructor(private readonly roomsService: RoomsService) {}
+  constructor(private readonly roomsService: RoomsService) { }
 
   handleConnection(client: Socket) {
     console.log('Client connected:', client.id);

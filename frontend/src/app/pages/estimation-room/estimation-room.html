@@ -1,12 +1,6 @@
 <div class="room-container">
-  <app-header
-    mode="room"
-    [roomName]="roomName()"
-    [roomId]="roomCode()"
-    [userName]="userName()"
-    (copyId)="copyRoomCode($event)"
-    (leaveRoom)="leaveRoom()"
-  >
+  <app-header mode="room" [roomName]="roomName()" [roomId]="roomCode()" [userName]="userName()"
+    (copyId)="copyRoomCode($event)" (leaveRoom)="leaveRoom()">
   </app-header>
 
   <app-participant-grid [participants]="participants()"> </app-participant-grid>
@@ -18,18 +12,18 @@
       <div class="info-text-group">
         <calc-text textLarge textLead class="info-title">
           @if (status() === 'voting') {
-            Bereit zum Schätzen?
+          Bereit zum Schätzen?
           } @else {
-            Ergebnisse sind da!
+          Ergebnisse sind da!
           }
         </calc-text>
         <calc-text textMedium class="info-description">
           @if (status() === 'voting') {
-            Bitte schaue dir das entsprechende Ticket in Jira an, um alle Details zu
-            prüfen, und gib hier deine Schätzung ab.
+          Bitte schaue dir das entsprechende Ticket in Jira an, um alle Details zu
+          prüfen, und gib hier deine Schätzung ab.
           } @else {
-            Die Schätzungen wurden aufgedeckt. Diskutiert die Ergebnisse und startet
-            bei Bedarf eine neue Runde.
+          Die Schätzungen wurden aufgedeckt. Diskutiert die Ergebnisse und startet
+          bei Bedarf eine neue Runde.
           }
         </calc-text>
       </div>
@@ -38,18 +32,11 @@
 
   <footer class="bottom-area">
     @if (status() === 'voting') {
-      <app-card-selection
-        (revealCards)="toggleReveal()"
-        (cardSelected)="onCardSelected($event)"
-        [selectedCard]="getUserVote()"
-      ></app-card-selection>
+    <app-card-selection (revealCards)="toggleReveal()" (cardSelected)="onCardSelected($event)"
+      [selectedCard]="getUserVote()"></app-card-selection>
     } @else {
-      <app-result-summary
-        [average]="results()?.average || '–'"
-        [mostFrequent]="results()?.mostCommon || '–'"
-        [recommendation]="results()?.recommendation || '–'"
-        (nextRound)="resetRound()"
-      ></app-result-summary>
+    <app-result-summary [average]="results()?.average || '–'" [mostFrequent]="results()?.mostCommon || '–'"
+      [recommendation]="results()?.recommendation || '–'" (nextRound)="resetRound()"></app-result-summary>
     }
   </footer>
 </div>

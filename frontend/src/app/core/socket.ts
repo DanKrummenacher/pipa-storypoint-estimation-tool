@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { io, Socket as IoSocket } from 'socket.io-client';
 import { BehaviorSubject } from 'rxjs';
 import { RoomState } from '../shared/models/room.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class Socket {
   connect() {
     if (this.socket) return;
 
-    this.socket = io('http://localhost:3000');
+    this.socket = io(environment.wsUrl);
 
     this.socket.on('connect', () => {
       console.log('Connected:', this.socket?.id);

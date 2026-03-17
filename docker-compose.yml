@@ -25,7 +25,10 @@ services:
       - mongo
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        NODE_AUTH_TOKEN: ${NODE_AUTH_TOKEN}
     container_name: storypoint-frontend
     restart: always
     networks:
