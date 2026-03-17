@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://DEIN-BACKEND.up.railway.app',
-  wsUrl: 'https://DEIN-BACKEND.up.railway.app',
+  apiUrl: 'https://pipa-storypoint-estimation-tool-production.up.railway.app',
+  wsUrl: 'https://pipa-storypoint-estimation-tool-production.up.railway.app',
 };
