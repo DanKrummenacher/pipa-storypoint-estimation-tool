@@ -36,11 +36,12 @@
 }
 
 .logo {
-  display: flex;
-  align-items: center;
+  display: block;
   width: functions.rem(80);
   height: functions.rem(34);
+  flex-shrink: 0;
 }
+
 
 .divider {
   @extend %text-base;
