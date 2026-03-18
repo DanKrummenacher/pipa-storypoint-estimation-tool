@@ -1,5 +1,12 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, signal } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { Room } from '../../core/room';
 import { Header } from '../../components/layout/header/header';
 import { JoinCard } from './components/join-card/join-card';
@@ -12,10 +19,15 @@ import { InfoSteps } from './components/info-steps/info-steps';
   templateUrl: './lobby.html',
   styleUrl: './lobby.scss',
 })
-export class Lobby {
+export class Lobby implements OnInit {
   private roomService = inject(Room);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private titleService = inject(Title);
+
+  ngOnInit() {
+    this.titleService.setTitle('Schätze deine User Stories');
+  }
 
   roomError = signal<string | undefined>(undefined);
   initialRoomCode = signal<string | undefined>(
