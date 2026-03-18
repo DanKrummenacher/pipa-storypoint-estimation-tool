@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { Header } from '../../components/layout/header/header';
 import { ParticipantGrid } from './components/participant-grid/participant-grid';
 import { CardSelection } from './components/card-selection/card-selection';
@@ -30,6 +31,7 @@ export class EstimationRoom implements OnInit, OnDestroy {
   private roomService = inject(Room);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private titleService = inject(Title);
 
   roomName = signal('');
   roomCode = signal('');
@@ -97,6 +99,7 @@ export class EstimationRoom implements OnInit, OnDestroy {
       next: (room) => {
         this.roomCode.set(room.roomCode);
         this.roomName.set(room.name);
+        this.titleService.setTitle(`Raum - ${room.name}`);
         this.userName.set(storedUserName);
         this.userId.set(storedUserId);
 
