@@ -49,6 +49,11 @@ describe('RoomsService', () => {
   });
 
   describe('calculateResults', () => {
+    const calc = (room: ReturnType<typeof mockRoom>): CalcResults =>
+      (
+        service as unknown as { calculateResults: (r: unknown) => CalcResults }
+      ).calculateResults(room);
+
     it('should calculate correct average and recommendation for numeric votes', () => {
       const room = mockRoom([
         { name: 'User 1', vote: 3 },
@@ -56,9 +61,7 @@ describe('RoomsService', () => {
         { name: 'User 3', vote: 8 },
       ]);
 
-      const results = (
-        service as unknown as { calculateResults: (r: unknown) => CalcResults }
-      ).calculateResults(room);
+      const results = calc(room);
 
       expect(results.average).toBe(5.33);
       expect(results.recommendation).toBe(5);
@@ -72,9 +75,7 @@ describe('RoomsService', () => {
         { name: 'User 3', vote: 8 },
       ]);
 
-      const results = (
-        service as unknown as { calculateResults: (r: unknown) => CalcResults }
-      ).calculateResults(room);
+      const results = calc(room);
 
       expect(results.mostCommon).toBe(5);
     });
@@ -86,12 +87,10 @@ describe('RoomsService', () => {
         { name: 'User 3', vote: 0 },
       ]);
 
-      const results = (
-        service as unknown as { calculateResults: (r: unknown) => CalcResults }
-      ).calculateResults(room);
+      const results = calc(room);
 
       expect(results.average).toBe(4);
-      expect(results.recommendation).toBe(3);
+      expect(results.recommendation).toBe(5);
       expect(results.mostCommon).toBeNull();
     });
 
@@ -101,12 +100,81 @@ describe('RoomsService', () => {
         { name: 'User 2', vote: 1 },
       ]);
 
-      const results = (
-        service as unknown as { calculateResults: (r: unknown) => CalcResults }
-      ).calculateResults(room);
+      const results = calc(room);
 
       expect(results.average).toBe(0.75);
-      expect(results.recommendation).toBe(0.5);
+      expect(results.recommendation).toBe(1);
+    });
+
+    it('should round UP when average is between two fibonacci values (user example: 1 and 2)', () => {
+      const room = mockRoom([
+        { name: 'User 1', vote: 1 },
+        { name: 'User 2', vote: 2 },
+      ]);
+
+      const results = calc(room);
+
+      expect(results.average).toBe(1.5);
+      expect(results.recommendation).toBe(2);
+    });
+
+    it('should return exact fibonacci value if average lands exactly on one', () => {
+      const room = mockRoom([
+        { name: 'User 1', vote: 5 },
+        { name: 'User 2', vote: 5 },
+      ]);
+
+      const results = calc(room);
+
+      expect(results.average).toBe(5);
+      expect(results.recommendation).toBe(5);
+    });
+
+    it('should only round DOWN when very close to lower fibonacci (within 15% of gap)', () => {
+      const room = mockRoom([
+        { name: 'User 1', vote: 5 },
+        { name: 'User 2', vote: 5 },
+        { name: 'User 3', vote: 5 },
+        { name: 'User 4', vote: 8 },
+      ]);
+
+      const results = calc(room);
+
+      expect(results.average).toBe(5.75);
+      expect(results.recommendation).toBe(8);
+    });
+
+    it('should round UP for moderately spaced votes', () => {
+      const room = mockRoom([
+        { name: 'User 1', vote: 2 },
+        { name: 'User 2', vote: 3 },
+      ]);
+
+      const results = calc(room);
+
+      expect(results.average).toBe(2.5);
+      expect(results.recommendation).toBe(3);
+    });
+
+    it('should round UP for high-value estimates', () => {
+      const room = mockRoom([
+        { name: 'User 1', vote: 13 },
+        { name: 'User 2', vote: 21 },
+      ]);
+
+      const results = calc(room);
+
+      expect(results.average).toBe(17);
+      expect(results.recommendation).toBe(21);
+    });
+
+    it('should handle single vote correctly', () => {
+      const room = mockRoom([{ name: 'User 1', vote: 8 }]);
+
+      const results = calc(room);
+
+      expect(results.average).toBe(8);
+      expect(results.recommendation).toBe(8);
     });
   });
 

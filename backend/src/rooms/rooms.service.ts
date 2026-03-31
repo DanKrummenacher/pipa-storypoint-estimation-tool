@@ -130,9 +130,36 @@ export class RoomsService {
   }
 
   private getClosestFibonacci(value: number): number {
-    return this.fibonacci.reduce((prev, curr) =>
-      Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev,
-    );
+    if (this.fibonacci.includes(value)) {
+      return value;
+    }
+
+    if (value <= this.fibonacci[0]) {
+      return this.fibonacci[0];
+    }
+    if (value >= this.fibonacci[this.fibonacci.length - 1]) {
+      return this.fibonacci[this.fibonacci.length - 1];
+    }
+
+    let lower = this.fibonacci[0];
+    let upper = this.fibonacci[this.fibonacci.length - 1];
+
+    for (let i = 0; i < this.fibonacci.length - 1; i++) {
+      if (this.fibonacci[i] <= value && this.fibonacci[i + 1] >= value) {
+        lower = this.fibonacci[i];
+        upper = this.fibonacci[i + 1];
+        break;
+      }
+    }
+
+    const gap = upper - lower;
+    const positionInGap = (value - lower) / gap;
+
+    if (positionInGap <= 0.15) {
+      return lower;
+    }
+
+    return upper;
   }
 
   async leaveRoom(roomCode: string, userId: string) {
